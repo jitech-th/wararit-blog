@@ -2,4 +2,4 @@
 
 ### Contents
 
-- [Docker](https://github.com/jitech-th/wararit-blog/blob/gh-pages/docker_1.md)
+- [Docker](https://jitech-th.github.io/wararit-blog/docker_1)
