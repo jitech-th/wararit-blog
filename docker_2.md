@@ -33,6 +33,17 @@ $ docker run -d --name abc ubuntu [COMMAND]
 
 เช่นเราอาจจะสั่งให้มัน sleep 10 วินาที container มันก็จะ up อยู่ 10 วินาที แล้วถึงจะ exited ซึ่งถ้ามันเป็น service อื่นที่ทำงานตลอดเวลา มันก็จะทำงานอยู่แบบนั้นแหละ จนกว่าเราจะ stop มัน ดังนั้นมันก็เลยต้องมี `-d` สำหรับ detach ออกมาจาก container (รันเป็น backgound)
 
+`docker run` ยังมี argument ที่เกี่ยวกับการ map port, mount volume และกำหนด variable คือ
+```
+$ docker run -d -p 8080:80 -e VARIABLE=aaa -v /var/lib/docker:/opt/sql --name abc ubuntu
+```
+สรุปคร่าวคำสั่งด้านบน เห็นได้ว่ามันจะมี option เยอะแยะไปหมด ซึ่งจริงๆมันไม่ require นะ จะใส่หรือไม่ใส่ก็ได้
+- `-p` คือการบอกว่าจะ map port ยังไง ในตัวอย่างคือ port 8080 ของข้างนอก ไป map เข้ากับ 80 ของ container
+- `-e` อันนี้คือเกี่ยวกับ environment variable
+- `-v` คือการ map volume จาก `/var/lib/docker` ของเครื่อง host กับ `/opt/sql` ของ container
+
+
+
 นอกจากนี้ container ที่มันกำลังรันอยู่ เราสามารถให้มันทำคำสั่งอื่นได้ โดยใช้คำสั่ง
 ```
 $ docker exec -it abc bash
