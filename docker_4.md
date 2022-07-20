@@ -31,6 +31,10 @@ services:
       - "443:8043"
     volumes:
       - .:/code
+    configs:
+      - httpd-config
+    secrets:
+      - server-certificate
     environment:
       FLASK_ENV: development
   redis:
@@ -43,6 +47,14 @@ volumes:
     driver: flocker
     driver_opts:
       size: "10GiB"
+      
+ configs:
+  httpd-config:
+    external: true
+
+secrets:
+  server-certificate:
+    external: true
 ```
 
 จะเห็นได้ว่าถ้าใช้คำสั่ง `docker run` เป็นน่าจะเข้าใจความหมายในแต่ละบรรทัดของ `docker-compose.yml` ได้ไม่น่ายาก
