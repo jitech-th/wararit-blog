@@ -28,3 +28,52 @@
 
 แต่ที่จะมาพูดถึงในตอนนี้คือวิธีแรก
 
+### Type of mount
+
+การ mount มีด้วยกัน 3 วิธี คือ 
+1. **volume** ถูกเก็บไว้ใน filesystem ที่ถูกจัดการด้วย docker (`/var/lib/docker/volumes/`) ซึ่งเป็นวิธีที่ดีที่สุดในการจะทำ persist data 
+2. **bind** mount เก็บไว้ที่ในก็ได้ในระบบ เหมือนเป็นการชี้ path ให้ docker ไปอ่านใน directory ที่เรากำหนดไว้
+3. **tmpfs** เก็บทุกอย่างไว้ใน memory
+ดูความต่างได้จากรูปข้างล่าง 
+
+![alt text](https://docs.docker.com/storage/images/types-of-mounts.png)
+
+### Docker volume commands
+
+สร้าง volume
+```
+$ docker volume create my-vol
+```
+
+list volume
+```
+$ docker volume ls
+```
+
+ลบ volume 
+```
+$ docker volume rm my-vol
+```
+
+### Start a container with volume or bind mount
+
+สามารถทำได้ด้วย `-v` หรือ `--mount` ต่างกันเล็กน้อยตรงที่ `--mount` จะมีความ verbose กว่า
+
+ถ้าใช้ volume ก็ใส่ชื่อ volume ได้เลย หรือถ้า bind mount ก็ใส่เป็น absolute path เช่น `-v <volume_name>:/app` หรือ `-v <path>:/app`
+
+ตัวอย่าง `--mount`
+```
+$  docker run -d \
+  -it \
+  --name devtest \
+  --mount type=bind,source="$(pwd)"/target,target=/app \
+  nginx:latest
+```
+ตัวอย่าง `-v`
+```
+$ docker run -d \
+  -it \
+  --name devtest \
+  -v "$(pwd)"/target:/app \ 
+  nginx:latest
+```
