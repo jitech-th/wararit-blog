@@ -29,12 +29,14 @@ RUN apt-get update && apt-get install -y \
 - `ENV` คำสั่งนี้ใช้ประกาศตัวแปร environment variables ที่จะไปอยู่ใน container ที่เราสร้างจาก image ที่มาจาก dockerfileนี้
 - `COPY` คำสั่งนี้ใช้ copy ไฟล์จาก directory ข้างนอก (ก่อนสร้าง image) ให้ไปอยู่ใน container (จาก image ที่เราสร้าง) ตาม path ที่เรากำหนด
 - `ENTRYPOINT` คำสั่งนี้คล้ายๆ `CMD` เลย แต่จะมีส่วนที่ต่างกันตรงที่ `CMD` เป็นเหมือนคำสั่ง default สามารถโดนเขียนทับได้ตอนที่สั่ง docker run แต่ `ENTRYPOINT` เป็นเหมือนคำสั่งที่รอรับ parameter จากคำสั่ง docker run ทั้ง `ENTRYPOINT` และ `CMD` สามารถใช้ร่วมกันได้ ตัวอย่างเช่น
+
 ```
 FROM centos:8.1.1911
-
 CMD ["echo", "Hello Docker"]
 ```
+
 แล้วเราสั่งรัน
+
 ```
 $ docker run <image-id>
 Hello Docker
@@ -43,13 +45,14 @@ $ docker run <image-id> hostname # hostname is exec to override CMD
 ```
 
 แต่ถ้าเป็น ENTRYPOINT
+
 ```
 FROM centos:8.1.1911
-
 ENTRYPOINT ["echo", "Hello Docker"] 
 ```
 
 แล้วสั่งรัน
+
 ```
 $ docker run <image-id>
 Hello Docker
@@ -58,13 +61,15 @@ Hello Docker hostname
 ```
 
 ซึ่งทั้ง CMD แล้ว ENTRYPOINT มันสามารถใช้ร่วมกันได้
+
 ```
 FROM centos:8.1.1911
-
 ENTRYPOINT ["echo", "Hello"]
 CMD ["Docker"]
 ```
+
 แล้วสั่งรัน
+
 ```
 $ docker run <image-id>
 Hello Docker
@@ -84,11 +89,13 @@ $ docker build -t <name> [path]
 ```
 
 พอเรา build เสร็จแล้วลองเช็คได้ด้วย docker images เช่น
+
 ```
 $ docker images
 REPOSITORY    TAG       IMAGE ID        CREATED             SIZE
 my_name       lastest   308e519aac60    6 days ago          824.5 MB
 ```
+
 แล้วทีนี้เราก็สามารถสร้างรัน container จาก images นั้นได้
 
 ### แถมนิดนึง เรื่อง registry
