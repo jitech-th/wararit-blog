@@ -28,8 +28,8 @@ $ timedatectl set-ntp yes
 - download easyrsa
 ```
 $ wget https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.0/EasyRSA-3.1.0.tgz
-$ tar -xf EasyRSA-unix-v3.1.0.tgz
-$ mv EasyRSA-v3.1.0/ easy-rsa/; rm -f EasyRSA-unix-v3.1.0.tgz
+$ tar -xf EasyRSA-3.1.0.tgz
+$ mv EasyRSA-3.1.0/ easy-rsa/; rm -f EasyRSA-3.1.0.tgz
 ```
 
 - ตั้งค่า vars ของ easy-rsa (ด้านล่างเป็นแค่ตัวอย่างเท่านั้น)
@@ -61,3 +61,31 @@ set_var EASYRSA_DIGEST          "sha256"
 $ chmod +x vars
 ```
 
+- **init and build CA**
+```
+$ ./easyrsa init-pki
+$ ./easyrsa build-ca
+```
+
+- **build server key**
+```
+$ ./easyrsa gen-req <server_name> nopass
+$ ./easyrsa sign-req server <server_name>
+```
+
+- verify
+```
+$ openssl verify -CAfile pki/ca.crt pki/issued/<server_name>.crt
+pki/issued/<server_name>.crt: OK
+```
+
+- **build client key**
+```
+$ ./easyrsa gen-req <client_name> nopass
+$ ./easyrsa sign-req client <client_name>
+```
+
+- **build DH key**
+```
+$ ./easyrsa gen-dh
+```
