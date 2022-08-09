@@ -40,4 +40,4 @@ OpenVPN TAP mode จะใช้ TAP interface ที่ทำงานในร
 
 #### TUN mode 
 
-OpenVPN TUN mode จะใช้ TUN interface ที่ทำงานในระดับ layer 3 ทำงานคล้ายกับ router นั่นหมายความว่า packet ที่ออกจาก TUN interface จะมี header ถึงแค่ layer 3 
+OpenVPN TUN mode จะใช้ TUN interface ที่ทำงานในระดับ layer 3 ทำงานคล้ายกับ router นั่นหมายความว่า packet ที่ออกจาก TUN interface จะมี header ถึงแค่ layer 3 จึงทำให้มี overhead น้อยกว่า แต่จะใช้ได้เฉพาะกับ IP based traffic เท่านั้น และ broadcast traffic จะไม่ถูกส่งไปด้วย
