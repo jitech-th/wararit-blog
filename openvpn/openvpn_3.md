@@ -1,4 +1,4 @@
-## Configure OpenVPN
+## Configure OpenVPN server
 
 ### Copy Certificate Files ( ไม่จำเป็น )
 เริ่มจากการ copy certificates ที่สร้างไว้แล้วไว้ใน path ที่ต้องการ
@@ -40,7 +40,7 @@ ifconfig-pool  10.6.38.2 10.6.38.62 255.255.255.192
 push "route-gateway 10.6.38.1"
 push "redirect-gateway"
 push "route 100.100.0.0 255.255.0.0"
-push "dhcp-option DNS 100.100.0.2"
+push "dhcp-option DNS 100.100.0.1"
 
 duplicate-cn
 keepalive 10 120
@@ -92,4 +92,34 @@ daemon
 
 `max-clients <numeber>` - กำหนดจำนวน client สูงสุดที่สามารถใช้ vpn นี้ได้
 
+`auth-user-pass-verify <authen script path> via-env`  - ใช้ในกรณีที่ต้องการให้มีการทำ authentication โดยเขียน script เพื่อเช็ค username/password แล้ว return ค่าออกมาจาก script นั้น
+
 `daemon`                - รันเป็น daemon mode
+
+### Enable Port-Forwarding and Configure Routing
+
+- **Port forwarding**
+```
+echo 'net.ipv4.ip_forward = 1' >> /etc/sysctl.conf
+sysctl -p
+```
+
+- **Iptables routing**
+
+```
+iptables -t nat -A POSTROUTING -s 10.6.38.0/26 -j MASQUERADE
+```
+
+or
+
+```
+iptables -t nat -A POSTROUTING -s 10.6.38.0/26 --to-source 100.100.1.1 -j SNAT
+```
+
+[ความแตกต่างระหว่าง Masquerade และ SNAT](https://www.terrywang.net/2016/02/02/new-iptables-gotchas.html)
+
+
+- ในกรณีที่ policy ของ FORWARD chain เป็น DROP จำเป็นต้องเพิ่ม rule เพื่อ allow vpn forwarding
+```
+iptables -A FORWARD -s 10.6.38.0/26 -j ACCEPT
+```
