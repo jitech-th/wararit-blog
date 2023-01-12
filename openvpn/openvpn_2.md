@@ -64,7 +64,7 @@ $ chmod +x vars
 - **init and build CA**
 ```
 $ ./easyrsa init-pki
-$ ./easyrsa build-ca
+$ ./easyrsa build-ca nopass
 ```
 
 - **build server key**
