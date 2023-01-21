@@ -5,6 +5,6 @@ There're several files those are related to an ESXI image:
 
 if we have vmx and vmdk, the below command is recommended for image convertion
 
-`virt-v2v -i vmx </path/to/.vmx> -o local -of qcow2 -os </path/to/des_qcow2>`
+`virt-v2v -i vmx </path/to/.vmx> -o local -of qcow2 -os </path/to/des_dir>`
 
 we will get both a template file and image(s) (depends on how many disk our VM uses)
